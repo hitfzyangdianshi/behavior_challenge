@@ -3,7 +3,8 @@ project(DPI_challenge )
 
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(${CMAKE_SOURCE_DIR}/include_miracl)
 
 add_executable(DPI_challenge main.cpp)
 
-target_link_libraries(DPI_challenge ${CMAKE_SOURCE_DIR}/miracl.a)
+target_link_libraries(DPI_challenge ${CMAKE_SOURCE_DIR}/lib_miracl/miracl.a)
