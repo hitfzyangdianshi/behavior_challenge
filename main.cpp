@@ -65,7 +65,7 @@ int main() {
             printf(" + ");
             cotnum(number2,stdout);
             result_count++;
-            if(result_count==10)break;
+          //  if(result_count==10)break;
         }
         else{
             continue;
