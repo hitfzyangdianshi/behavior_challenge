@@ -1,9 +1,24 @@
 #include<cstdio>
 #include <ctime>
 
+#ifdef __cplusplus
 extern "C" {
+#endif
+
+
 #include "miracl.h"
+
+#include "interposition/jmalloc.h"
+
+#include "interposition/jfree.h"
+
+
+#ifdef __cplusplus
 }
+#endif
+
+
+#include <unistd.h>
 
 
 using namespace std;
@@ -14,9 +29,12 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
+    sleep(3);
+
     miracl* mip = mirsys(5000, 10);  /* initialise system to base 10, 5000 digits per "big" */
 
     big number1, number2, composite_number;
+
 
     number1 = mirvar(2);
     number2=mirvar(2);
@@ -73,5 +91,10 @@ int main(int argc, char** argv) {
             continue;
         }
     }
+
+   free(number1);
+    free(number2);
+    free(composite_number);
+
     return 0;
 }
