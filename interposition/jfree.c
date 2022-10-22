@@ -1,9 +1,15 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <dlfcn.h>
 
-void* free(void *pt)
+#include "jfree.h"
+
+
+void* myfree(void *pt)
 {
     static void* (*real_free)(void*) = NULL;
     if (!real_free)

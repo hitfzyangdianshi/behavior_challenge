@@ -1,9 +1,15 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <dlfcn.h>
 
-void* malloc(size_t size)
+#include "jmalloc.h"
+
+
+void* mymalloc(size_t size)
 {
     static void* (*real_malloc)(size_t) = NULL;
     if (!real_malloc)

@@ -36,6 +36,12 @@ int main(int argc, char** argv) {
     big number1, number2, composite_number;
 
 
+    number1 =(big) mymalloc(sizeof(big));
+    number2=(big) mymalloc(sizeof(big));
+
+    composite_number=(big) mymalloc(sizeof(big));
+
+
     number1 = mirvar(2);
     number2=mirvar(2);
     composite_number=mirvar(0);
@@ -92,9 +98,9 @@ int main(int argc, char** argv) {
         }
     }
 
-   free(number1);
-    free(number2);
-    free(composite_number);
+    myfree(number1);
+    myfree(number2);
+    myfree(composite_number);
 
     return 0;
 }
