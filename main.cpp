@@ -1,17 +1,24 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#define DEFINE_ON_ARM (defined (__arm__) || defined(__arm64__) || defined(__aarch64__) || defined(RPI) || defined(__Raspberry_PI__) || defined(__ARM_ARCH))
+
 #include<cstdio>
 #include <ctime>
 #include <cstdlib>
+#include <cstdint>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
 #include "miracl.h"
 
-#include "interposition/jmalloc.h"
-
+#if !DEFINE_ON_ARM
 #include "interposition/jfree.h"
+#include "interposition/jmalloc.h"
+#endif
 
 
 #ifdef __cplusplus
@@ -20,9 +27,42 @@ extern "C" {
 
 
 #include <unistd.h>
+#include <dlfcn.h>
+
 
 
 using namespace std;
+
+/*
+ * using g++ -ldl on arm
+ * */
+
+#if DEFINE_ON_ARM
+void* myfree(void *pt)
+{
+    static void* (*real_free)(void*) = NULL;
+    if (!real_free) {
+        real_free= reinterpret_cast<void*(*)(void*)>( dlsym(RTLD_NEXT, "free"));
+    }
+
+    void *p = real_free(pt);
+    // fprintf(stderr, "free(%p) = %p\n", pt, p);
+    return p;
+}
+
+
+void* mymalloc(size_t size)
+{
+    static void* (*real_malloc)(size_t) = NULL;
+    if (!real_malloc) {
+        real_malloc = reinterpret_cast<void*(*)(size_t)>( dlsym(RTLD_NEXT, "malloc") );
+    }
+
+    void *p = real_malloc(size);
+    // fprintf(stderr, "malloc(%d) = %p\n", size, p);
+    return p;
+}
+#endif
 
 
 
@@ -63,7 +103,7 @@ int main(int argc, char** argv) {
     //irand((unsigned)time(NULL));
 
     //bigbits(1800, composite_number);
-    //77785013981551582343293798510443924959819057315170007596898940617969596087533115026951499894039902248846791609082584911446550364291013377086145727196953287853703181523044693184006168499541635734974518338177127986068424623677884947462862567494290279550993930991636393774544224102456139692653784144946384674721399141364811253440183811656861558720345735944803400260533998259914078019082187647176761313535767485202646237839574347186337095641076426343761905828352269566830703817878713983333711383742746209161506947321366421127198006811720502000160
+    //777850139815515823432937985104439249598190573151700075968989406179695960875331150269514998940399022488467916090825849114465503642910133770861457271969532878537031815230446931840061684995416357349745183381771279860684246236778849474628625674942902795509939309916363937745442241024561396926537841449463846747213991413648112534401838116568615587203457359448034002605339982599140780190821876471767613
 
     cinstr(composite_number,argv[1]);
 
