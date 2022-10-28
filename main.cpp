@@ -34,7 +34,7 @@ extern "C" {
 using namespace std;
 
 /*
- * using g++ -ldl on arm
+ * using g++ -Wl,--no-as-needed -ldl on arm
  * */
 
 #if DEFINE_ON_ARM
