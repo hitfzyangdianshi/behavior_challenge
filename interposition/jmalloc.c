@@ -16,6 +16,6 @@ void* mymalloc(size_t size)
         real_malloc = dlsym(RTLD_NEXT, "malloc");
 
     void *p = real_malloc(size);
-    fprintf(stderr, "malloc(%d) = %p\n", size, p);
+   // fprintf(stderr, "malloc(%d) = %p\n", size, p);
     return p;
 }

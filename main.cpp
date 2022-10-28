@@ -1,5 +1,6 @@
 #include<cstdio>
 #include <ctime>
+#include <cstdlib>
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,6 +29,16 @@ using namespace std;
 // Goldbach's conjecture using MIRACL
 
 int main(int argc, char** argv) {
+
+    FILE *output_txt=fopen("result_output.txt","w");
+    fprintf(output_txt,"*** START CHALLENGE ***\n");
+    fprintf(output_txt,"argv[1] = %s\n",argv[1]);
+    fflush(output_txt);
+
+    if(argv[1]==NULL){
+        fprintf(stderr, "[ERROR] no argv for composite number\n " );
+        exit(EXIT_FAILURE);
+    }
 
     sleep(3);
 
@@ -63,6 +74,8 @@ int main(int argc, char** argv) {
 
     int result_count=0;
 
+    fprintf(output_txt,"*** START while loop ***\n");
+    fflush(output_txt);
     while(true){
         bool nextprime_success;
         nextprime_success = nxprime(number1, number1);
@@ -87,10 +100,13 @@ int main(int argc, char** argv) {
         isprime_result= isprime(number2);
 
         if(isprime_result==true){
+            cotnum(number1,output_txt);
             cotnum(number1,stdout);
             //printf(" + ");
+            cotnum(number2,output_txt);
             cotnum(number2,stdout);
             result_count++;
+            fflush(output_txt);
             if(result_count==10)break;
         }
         else{
@@ -101,6 +117,10 @@ int main(int argc, char** argv) {
     myfree(number1);
     myfree(number2);
     myfree(composite_number);
+
+    fprintf(output_txt, "***CHALLENGE ENDS\n");
+
+    fclose(output_txt);
 
     return 0;
 }

@@ -16,6 +16,6 @@ void* myfree(void *pt)
         real_free = dlsym(RTLD_NEXT, "free");
 
     void *p = real_free(pt);
-    fprintf(stderr, "free(%p) = %p\n", pt, p);
+   // fprintf(stderr, "free(%p) = %p\n", pt, p);
     return p;
 }
